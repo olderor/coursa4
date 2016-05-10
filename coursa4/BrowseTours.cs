@@ -10,13 +10,12 @@ using System.Windows.Forms;
 
 namespace coursa4
 {
-    public partial class MainForm : Form
+    public partial class BrowseTours : Form
     {
-        public MainForm()
+        public BrowseTours()
         {
             InitializeComponent();
-            BrowseTours f = new BrowseTours();
-            f.Show();
         }
+        
     }
 }

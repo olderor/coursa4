@@ -6,44 +6,85 @@ using System.Threading.Tasks;
 
 namespace coursa4.classes
 {
-    enum TourType
+
+    enum Activeness
     {
-        Visit, Cruise
+        Calm,
+        Pleasure,
+        Active,
+        Sport,
+        Knowledge,
+        Adventure
     }
 
-    class Tour
+    [Flags]
+    enum Transport
     {
-        private List<Location> cruiseRoute;
-        private Location location;
-        private TourType type;
+        None =  0x000,
+        Plane = 0x001,
+        Train = 0x002,
+        Bus =   0x004,
+        Taxi =  0x008,
+        Ship =  0x010
+    }
 
-        public TourType Type { get { return type; } }
-        public List<Location> CruiseRoute { get { return cruiseRoute; } }
-        public Location Location { get { return location; } }
+    [Flags]
+    enum Inclusion
+    {
+        None           = 0x000,
+        HotelPrice     = 0x000,
+        TransportPrice = 0x001,
+        Visa           = 0x002,
+        Insurance      = 0x004,
+        AllInclusive   = 0x008 // Food and Drinks
+    }
 
-        public Tour(params Location[] locations)
+    abstract class AbstractTour
+    {
+
+        public string Title { get; set; }
+        public Activeness Activeness { get; set; }
+        public Transport Transport { get; set; }
+        public Inclusion Inclusion { get; set; }
+        public double Cost { get; set; }
+        public string Description { get; set; }
+
+        public AbstractTour(string title, Activeness activeness, Transport transport, Inclusion inclusion, double cost, string description)
         {
-            if (locations == null || locations.Length == 0)
-            {
-                //show error
-                return;
-            }
-            cruiseRoute = locations.ToList();
-            location = locations[0];
-            if (locations.Length == 1)
-                type = TourType.Visit;
-            else
-                type = TourType.Cruise;
+            Title = title;
+            Activeness = activeness;
+            Transport = transport;
+            Inclusion = inclusion;
+            Cost = cost;
+            Description = description;
+        }
+    }
+
+    class Tour : AbstractTour
+    {
+        public Location Location { get; set; }
+
+        public Tour(string title, Activeness activeness, Transport transport, Inclusion inclusion, double cost, string description, Location location) : 
+            base(title, activeness, transport, inclusion, cost, description)
+        {
+            Location = location;
+        }
+    }
+
+    class Cruise : AbstractTour
+    {
+        public List<Location> Route { get; set; }
+
+        public Cruise(string title, Activeness activeness, Transport transport, Inclusion inclusion, double cost, string description, params Location[] locations) :
+            base(title, activeness, transport, inclusion, cost, description)
+        {
+            Route = locations.ToList();
         }
 
-        public override string ToString()
+        public Cruise(string title, Activeness activeness, Transport transport, Inclusion inclusion, double cost, string description, List<Location> locations) :
+            base(title, activeness, transport, inclusion, cost, description)
         {
-            string result = location.ToString();
-
-            for (int i = 1; i < cruiseRoute.Count; i++)
-                result += " -> " + cruiseRoute[i];
-
-            return result;
+            Route = locations.ToList();
         }
     }
 }

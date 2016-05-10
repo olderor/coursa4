@@ -8,15 +8,16 @@ namespace coursa4.classes
 {
     class TourAgency
     {
-        private List<Tour> tours;
-        private string name;
 
-        public List<Tour> Tours { get { return tours; } }
-        public string Name { get { return name; } }
+        public List<Tour> Tours { get; set; }
+        public string Name { get; set; }
+        public string Address { get; set; }
 
-        public TourAgency(params Tour[] tours)
+        public TourAgency(string name, string address, params Tour[] tours)
         {
-            this.tours = tours.ToList();
+            Name = name;
+            Address = address;
+            Tours = tours.ToList();
         }
     }
 }

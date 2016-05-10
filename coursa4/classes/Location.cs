@@ -8,15 +8,18 @@ namespace coursa4.classes
 {
     class Location
     {
-        private string country;
-        private string city;
+        public string Country { get; set; }
+        public string City { get; set; }
 
-        public string Country { get { return country; } }
-        public string City { get { return city; } }
-
+        public Location(string city, string country)
+        {
+            Country = country;
+            City = city;
+        }
+        
         public override string ToString()
         {
-            return city + ", " + country;
+            return City + ", " + Country;
         }
     }
 }
