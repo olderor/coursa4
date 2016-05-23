@@ -46,29 +46,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BrowseTours.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="BrowseTours.Designer.cs">
-      <DependentUpon>BrowseTours.cs</DependentUpon>
-    </Compile>
-    <Compile Include="classes\Location.cs" />
-    <Compile Include="classes\Tour.cs" />
-    <Compile Include="classes\TourAgency.cs" />
-    <Compile Include="MainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Models\FileManager.cs" />
+    <Compile Include="Models\Location.cs" />
+    <Compile Include="Models\Tour.cs" />
+    <Compile Include="Models\TourAgency.cs" />
+    <Compile Include="Models\TourAgencyCollection.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="BrowseTours.resx">
-      <DependentUpon>BrowseTours.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </EmbeddedResource>
+    <Compile Include="TourAgenciesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TourAgenciesForm.Designer.cs">
+      <DependentUpon>TourAgenciesForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -78,7 +68,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <None Include="Properties\DataSources\coursa4.classes.AbstractTour.datasource" />
+    <EmbeddedResource Include="TourAgenciesForm.resx">
+      <DependentUpon>TourAgenciesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Properties\DataSources\TourAgencyCollection.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

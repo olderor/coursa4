@@ -4,22 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace coursa4.classes
+namespace coursa4
 {
-    class Location
+    [Serializable]
+    public class Location
     {
         public string Country { get; set; }
-        public string City { get; set; }
+        public string Place { get; set; }
 
-        public Location(string city, string country)
+        public Location(string place, string country)
         {
             Country = country;
-            City = city;
+            Place = place;
         }
         
         public override string ToString()
         {
-            return City + ", " + Country;
+            return Place + ", " + Country;
         }
     }
 }
