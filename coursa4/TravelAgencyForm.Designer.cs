@@ -31,12 +31,13 @@
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.travelAgencyGridView = new System.Windows.Forms.DataGridView();
-            this.toursBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.travelsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.filterButton = new System.Windows.Forms.Button();
             this.filterTextBox = new System.Windows.Forms.TextBox();
-            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.titleDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.typeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pathDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -45,7 +46,7 @@
             this.costDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.travelAgencyBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.travelAgencyGridView)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.toursBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.travelsBindingSource)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.travelAgencyBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -65,7 +66,7 @@
             this.descriptionDataGridViewTextBoxColumn,
             this.dayLengthDataGridViewTextBoxColumn,
             this.costDataGridViewTextBoxColumn});
-            this.travelAgencyGridView.DataSource = this.toursBindingSource;
+            this.travelAgencyGridView.DataSource = this.travelsBindingSource;
             this.travelAgencyGridView.Location = new System.Drawing.Point(12, 79);
             this.travelAgencyGridView.Name = "travelAgencyGridView";
             this.travelAgencyGridView.ReadOnly = true;
@@ -76,12 +77,13 @@
             this.travelAgencyGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.travelAgencyGridView.Size = new System.Drawing.Size(1140, 516);
             this.travelAgencyGridView.TabIndex = 1;
+            this.travelAgencyGridView.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.travelAgencyGridView_CellMouseDoubleClick);
             this.travelAgencyGridView.SelectionChanged += new System.EventHandler(this.travelAgencyGridView_SelectionChanged);
             // 
-            // toursBindingSource
+            // travelsBindingSource
             // 
-            this.toursBindingSource.DataMember = "Tours";
-            this.toursBindingSource.DataSource = this.travelAgencyBindingSource;
+            this.travelsBindingSource.DataMember = "Travels";
+            this.travelsBindingSource.DataSource = this.travelAgencyBindingSource;
             // 
             // menuStrip1
             // 
@@ -94,6 +96,27 @@
             this.menuStrip1.Size = new System.Drawing.Size(1166, 28);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exitToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(108, 26);
+            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(70, 24);
+            this.helpToolStripMenuItem.Text = "Agency";
             // 
             // filterButton
             // 
@@ -112,18 +135,6 @@
             this.filterTextBox.Size = new System.Drawing.Size(365, 22);
             this.filterTextBox.TabIndex = 6;
             this.filterTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.filterTextBox_KeyDown);
-            // 
-            // fileToolStripMenuItem
-            // 
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
-            this.fileToolStripMenuItem.Text = "File";
-            // 
-            // helpToolStripMenuItem
-            // 
-            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
-            this.helpToolStripMenuItem.Text = "Help";
             // 
             // titleDataGridViewTextBoxColumn
             // 
@@ -196,7 +207,7 @@
             this.Text = "TravelAgency";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.TravelAgencyForm_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.travelAgencyGridView)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.toursBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.travelsBindingSource)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.travelAgencyBindingSource)).EndInit();
@@ -210,7 +221,7 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.Button filterButton;
         private System.Windows.Forms.TextBox filterTextBox;
-        private System.Windows.Forms.BindingSource toursBindingSource;
+        private System.Windows.Forms.BindingSource travelsBindingSource;
         private System.Windows.Forms.BindingSource travelAgencyBindingSource;
         private System.Windows.Forms.DataGridViewTextBoxColumn titleDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn typeDataGridViewTextBoxColumn;
@@ -220,5 +231,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn costDataGridViewTextBoxColumn;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
     }
 }

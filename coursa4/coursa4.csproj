@@ -46,11 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddTravelAgencyForm.cs">
+    <Compile Include="AboutTravelAgencyForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddTravelAgencyForm.Designer.cs">
-      <DependentUpon>AddTravelAgencyForm.cs</DependentUpon>
+    <Compile Include="AboutTravelAgencyForm.Designer.cs">
+      <DependentUpon>AboutTravelAgencyForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\FileManager.cs" />
     <Compile Include="Models\Location.cs" />
@@ -71,8 +71,17 @@
     <Compile Include="TravelAgencyForm.Designer.cs">
       <DependentUpon>TravelAgencyForm.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="AddTravelAgencyForm.resx">
-      <DependentUpon>AddTravelAgencyForm.cs</DependentUpon>
+    <Compile Include="AboutTravelForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AboutTravelForm.Designer.cs">
+      <DependentUpon>AboutTravelForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="AboutTravelAgencyForm.resx">
+      <DependentUpon>AboutTravelAgencyForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AboutTravelForm.resx">
+      <DependentUpon>AboutTravelForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

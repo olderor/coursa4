@@ -11,14 +11,14 @@ namespace coursa4
     public class TravelAgency
     {
 
-        public BindingList<Tour> Tours { get; set; }
+        public BindingList<Travel> Travels { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
-        public int ToursCount
+        public int TravelsCount
         {
             get
             {
-                return Tours.Count;
+                return Travels.Count;
             }
         }
 
@@ -26,21 +26,38 @@ namespace coursa4
         {
             Name = "";
             Address = "";
-            Tours = new BindingList<Tour>();
+            Travels = new BindingList<Travel>();
         }
 
-        public TravelAgency(string name, string address, params Tour[] travels)
+        public TravelAgency(TravelAgency travelAgency)
+        {
+            Copy(travelAgency);
+        }
+
+        public TravelAgency(string name, string address, params Travel[] travels)
         {
             Name = name;
             Address = address;
-            Tours = new BindingList<Tour>(travels);
+            Travels = new BindingList<Travel>(travels);
         }
 
-        public TravelAgency(string name, string address, IEnumerable<Tour> travels)
+        public TravelAgency(string name, string address, IEnumerable<Travel> travels)
         {
             Name = name;
             Address = address;
-            Tours = new BindingList<Tour>(travels.ToList());
+            Travels = new BindingList<Travel>(travels.ToList());
+        }
+
+        public void Copy(TravelAgency travelAgency)
+        {
+            Name = travelAgency.Name;
+            Address = travelAgency.Address;
+            Travels = new BindingList<Travel>(travelAgency.Travels);
+        }
+
+        public void Remove(Travel travel)
+        {
+            Travels.Remove(travel);
         }
     }
 }

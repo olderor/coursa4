@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace coursa4
 {
-    public enum TourType
+    public enum TravelType
     {
         Tour,
         Cruise
@@ -14,12 +14,12 @@ namespace coursa4
 
     public enum Activeness
     {
-        Calm,        // = "Calm tourism",
-        Pleasure,    // = "Tourism for pleasure",
-        Active,      // = "Active tourism",
-        Sport,       // = "Sport tourism",
-        Educational, // = "Educational tourism",
-        Adventure,   // = "Adventure tourism".
+        Calm,        // = "Calm travelism",
+        Pleasure,    // = "Travelism for pleasure",
+        Active,      // = "Active travelism",
+        Sport,       // = "Sport travelism",
+        Educational, // = "Educational travelism",
+        Adventure,   // = "Adventure travelism".
     }
 
     [Flags]
@@ -45,9 +45,9 @@ namespace coursa4
     }
 
     [Serializable]
-    public class Tour
+    public class Travel
     {
-        public TourType Type { get; set; }
+        public TravelType Type { get; set; }
         public string Title { get; set; }
         public Activeness Activeness { get; set; }
         public Transport Transport { get; set; }
@@ -72,7 +72,25 @@ namespace coursa4
             }
         }
 
-        public Tour(TourType type, string title, Activeness activeness, Transport transport, Inclusion inclusion, double cost, int dayLength, string description, params Location[] locations)
+        public Travel()
+        {
+            Type = TravelType.Tour;
+            Title = "";
+            Activeness = Activeness.Adventure;
+            Transport = Transport.None;
+            Inclusion = Inclusion.None;
+            DayLength = 0;
+            Cost = 0;
+            Description = "";
+            Route = new List<Location>();
+        }
+
+        public Travel(Travel travel)
+        {
+            Copy(travel);
+        }
+
+        public Travel(TravelType type, string title, Activeness activeness, Transport transport, Inclusion inclusion, double cost, int dayLength, string description, params Location[] locations)
         {
             Type = type;
             Title = title;
@@ -85,7 +103,7 @@ namespace coursa4
             Route = locations.ToList();
         }
 
-        public Tour(TourType type, string title, Activeness activeness, Transport transport, Inclusion inclusion, double cost, int dayLength, string description, List<Location> locations)
+        public Travel(TravelType type, string title, Activeness activeness, Transport transport, Inclusion inclusion, double cost, int dayLength, string description, List<Location> locations)
         {
             Type = type;
             Title = title;
@@ -96,6 +114,19 @@ namespace coursa4
             Cost = cost;
             Description = description;
             Route = locations;
+        }
+
+        public void Copy(Travel travel)
+        {
+            Type = travel.Type;
+            Title = travel.Title;
+            Activeness = travel.Activeness;
+            Transport = travel.Transport;
+            Inclusion = travel.Inclusion;
+            DayLength = travel.DayLength;
+            Cost = travel.Cost;
+            Description = travel.Description;
+            Route = new List<Location>(travel.Route);
         }
     }
 }

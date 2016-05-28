@@ -43,12 +43,12 @@ namespace coursa4
         /// <summary>
         /// </summary>
         /// <returns> Возвращает список всех путешествий. </returns>
-        public List<Tour> GetAllTours()
+        public List<Travel> GetAllTravels()
         {
-            List<Tour> tours = new List<Tour>();
+            List<Travel> travels = new List<Travel>();
             foreach (TravelAgency ta in TravelAgencies)
-                tours.AddRange(ta.Tours);
-            return tours;
+                travels.AddRange(ta.Travels);
+            return travels;
         }
 
         /// <summary>
@@ -107,6 +107,15 @@ namespace coursa4
         public void Add(TravelAgency travelAgency)
         {
             TravelAgencies.Add(travelAgency);
+        }
+
+        /// <summary>
+        /// Удаляет туристическое агентство из коллекции.
+        /// </summary>
+        /// <param name="travelAgency"> Туристическое агентство, которое необходимо удалить. </param>
+        public void Remove(TravelAgency travelAgency)
+        {
+            TravelAgencies.Remove(travelAgency);
         }
     }
 }

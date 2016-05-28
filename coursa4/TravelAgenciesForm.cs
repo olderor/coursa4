@@ -30,12 +30,12 @@ namespace coursa4
             if (tac.TravelAgencies.Count == 0)
             {
                 tac.Clear();
-                Tour t = new Tour(TourType.Tour, "Jewels of Italy 2016", Activeness.Educational, Transport.Plane | Transport.Bus, Inclusion.TransportPrice | Inclusion.Visa, 1250, 7, "Enjoy all the Jewels of Italy on this adventure of a lifetime. A Local Specialist will take you on a tour from the Vatican City to glorious Ancient Rome to view the Forum and mighty Colosseum. Push the Leaning Tower of Pisa over in a photo to send home to the family, stand on Juliet's balcony in Verona and watch Venetian craftsmen at work at a glass-blowing workshop in Venice.", new Location("Rome", "Italy"), new Location("Florence", "Italy"), new Location("Venice", "Italy"), new Location("Rome", "Italy"));
-                Tour t2 = new Tour(TourType.Cruise, "EASTERN CARIBBEAN FROM MIAMI", Activeness.Adventure, Transport.Ship, Inclusion.AllInclusive | Inclusion.TransportPrice | Inclusion.Insurance, 419, 8, "An Interior stateroom is the most affordable way to cruise, and Carnival Glory's interiors are not just cozy, but are full of things you’d expect from any Carnival stateroom: a full private bathroom, Carnival Comfort Collection linens and just-a-call-away 24-hour room service.", new Location("Miami", "Florida"), new Location("Little San Salvador Island", "The Bahamas"), new Location("Saint Thomas", "Virgin Islands"), new Location("San Juan", "Puerto Rico"), new Location("Miami", "Florida"));
-                Tour t3 = new Tour(TourType.Tour, "Discovering Germany", Activeness.Pleasure, Transport.Train | Transport.Bus, Inclusion.TransportPrice, 149, 1, "Germany is synonymous with beer gardens, fairytale castles, medieval towns, and scenic rivers.", new Location("Munich", "Germany"));
+                Travel t = new Travel(TravelType.Tour, "Jewels of Italy 2016", Activeness.Educational, Transport.Plane | Transport.Bus, Inclusion.TransportPrice | Inclusion.Visa, 1250, 7, "Enjoy all the Jewels of Italy on this adventure of a lifetime. A Local Specialist will take you on a travel from the Vatican City to glorious Ancient Rome to view the Forum and mighty Colosseum. Push the Leaning Tower of Pisa over in a photo to send home to the family, stand on Juliet's balcony in Verona and watch Venetian craftsmen at work at a glass-blowing workshop in Venice.", new Location("Rome", "Italy"), new Location("Florence", "Italy"), new Location("Venice", "Italy"), new Location("Rome", "Italy"));
+                Travel t2 = new Travel(TravelType.Cruise, "EASTERN CARIBBEAN FROM MIAMI", Activeness.Adventure, Transport.Ship, Inclusion.AllInclusive | Inclusion.TransportPrice | Inclusion.Insurance, 419, 8, "An Interior stateroom is the most affordable way to cruise, and Carnival Glory's interiors are not just cozy, but are full of things you’d expect from any Carnival stateroom: a full private bathroom, Carnival Comfort Collection linens and just-a-call-away 24-hour room service.", new Location("Miami", "Florida"), new Location("Little San Salvador Island", "The Bahamas"), new Location("Saint Thomas", "Virgin Islands"), new Location("San Juan", "Puerto Rico"), new Location("Miami", "Florida"));
+                Travel t3 = new Travel(TravelType.Tour, "Discovering Germany", Activeness.Pleasure, Transport.Train | Transport.Bus, Inclusion.TransportPrice, 149, 1, "Germany is synonymous with beer gardens, fairytale castles, medieval towns, and scenic rivers.", new Location("Munich", "Germany"));
 
                 TravelAgency ta = new TravelAgency("Carnival", "Kharkiv, Vidumanaya street, 24a", t2, t3);
-                TravelAgency ta2 = new TravelAgency("Globus", "Kharkiv, Tourizm street, 129", t, t3, t, t, t2);
+                TravelAgency ta2 = new TravelAgency("Globus", "Kharkiv, Travelizm street, 129", t, t3, t, t, t2);
 
                 tac.Add(ta);
                 tac.Add(ta2);
@@ -62,7 +62,6 @@ namespace coursa4
             TravelAgency ta = (source.DataSource as BindingList<TravelAgency>)[index];
             TravelAgencyForm taf = new TravelAgencyForm(ta);
             taf.Show();
-            this.Close();
         }
 
         /// <summary>
@@ -76,11 +75,10 @@ namespace coursa4
         /// <summary>
         /// Открытие формы с просмотром всех путешествий.
         /// </summary>
-        private void browseAllToursButton_Click(object sender, EventArgs e)
+        private void browseAllTravelsButton_Click(object sender, EventArgs e)
         {
-            TravelAgencyForm form = new TravelAgencyForm(TravelAgencyCollection.GetDefaultInstance().GetAllTours());
+            TravelAgencyForm form = new TravelAgencyForm(TravelAgencyCollection.GetDefaultInstance().GetAllTravels());
             form.Show();
-            this.Close();
         }
 
         /// <summary>
@@ -88,8 +86,7 @@ namespace coursa4
         /// </summary>
         private void TravelAgenciesForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (Application.OpenForms.Count == 0)
-                Application.Exit();
+            Application.Exit();
         }
 
         /// <summary>
@@ -120,7 +117,7 @@ namespace coursa4
 
         private void addAgencyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AddTravelAgencyForm form = new AddTravelAgencyForm();
+            AboutTravelAgencyForm form = new AboutTravelAgencyForm();
             form.Show();
         }
     }

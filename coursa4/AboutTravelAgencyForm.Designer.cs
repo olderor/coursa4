@@ -1,6 +1,6 @@
 ﻿namespace coursa4
 {
-    partial class AddTravelAgencyForm
+    partial class AboutTravelAgencyForm
     {
         /// <summary>
         /// Required designer variable.
@@ -88,7 +88,7 @@
             this.cancelButton.UseVisualStyleBackColor = true;
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
-            // AddTravelAgencyForm
+            // AboutTravelAgencyForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -99,8 +99,8 @@
             this.Controls.Add(this.addressTextBox);
             this.Controls.Add(this.nameLabel);
             this.Controls.Add(this.nameTextBox);
-            this.Name = "AddTravelAgencyForm";
-            this.Text = "Add Travel Agency";
+            this.Name = "AboutTravelAgencyForm";
+            this.Text = "Add";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AddTravelAgencyForm_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -15,41 +15,62 @@ namespace coursa4
     /// </summary>
     public partial class TravelAgencyForm : Form
     {
-        private BindingList<Tour> tours;
+        private TravelAgency travelAgency;
+        private BindingList<Travel> travels;
         private BindingSource source;
         
         /// <summary>
         /// </summary>
         /// <param name="travelAgency"> Туристическое агентство, путешествия которого необходимо показать. </param>
-        public TravelAgencyForm(TravelAgency travelAgency) : this(travelAgency.Tours.ToList())
+        public TravelAgencyForm(TravelAgency travelAgency) : this(travelAgency.Travels)
         {
-            Text = travelAgency.Name;
+            this.travelAgency = travelAgency;
 
-            ToolStripItemCollection fileMenu = (menuStrip1.Items[0] as ToolStripMenuItem).DropDownItems;
+            DataBindings.Add(new Binding("Text", travelAgency, "Name"));
+
+            ToolStripItemCollection fileMenu = (menuStrip1.Items[1] as ToolStripMenuItem).DropDownItems;
+            menuStrip1.Items[1].Visible = true;
             fileMenu.Clear();
             fileMenu.Add("Add travel");
             fileMenu[0].Click += addTravelToolStripMenuItem_Click;
-            fileMenu.Add("Exit");
-            fileMenu[1].Click += exitToolStripMenuItem_Click;
+            fileMenu.Add("Edit");
+            fileMenu[1].Click += editTravelAgencyToolStripMenuItem_Click;
+            fileMenu.Add("Delete");
+            fileMenu[2].Click += deleteTravelAgencyToolStripMenuItem_Click;
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="tours"> Список путешествий. </param>
-        public TravelAgencyForm(List<Tour> tours)
+        /// <param name="travels"> Список путешествий. </param>
+        public TravelAgencyForm(BindingList<Travel> travels)
         {
             source = new BindingSource();
             InitializeComponent();
+
+            menuStrip1.Items[1].Visible = false;
             //travelAgencyGridView.DataSource = travels;
             Text = "List of travels";
-            this.tours = new BindingList<Tour>(tours);
-            source.DataSource = this.tours;
+            this.travels = travels;
+            source.DataSource = this.travels;
             travelAgencyGridView.DataSource = source;
+        }
 
-            ToolStripItemCollection fileMenu = (menuStrip1.Items[0] as ToolStripMenuItem).DropDownItems;
-            fileMenu.Add("Exit");
-            fileMenu[0].Click += exitToolStripMenuItem_Click;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="travels"> Список путешествий. </param>
+        public TravelAgencyForm(List<Travel> travels)
+        {
+            source = new BindingSource();
+            InitializeComponent();
+
+            menuStrip1.Items[1].Visible = false;
+            //travelAgencyGridView.DataSource = travels;
+            Text = "List of travels";
+            this.travels = new BindingList<Travel>(travels);
+            source.DataSource = this.travels;
+            travelAgencyGridView.DataSource = source;
         }
 
         /// <summary>
@@ -75,7 +96,7 @@ namespace coursa4
         private void filterButton_Click(object sender, EventArgs e)
         {
             string[] filters = filterTextBox.Text.Split(' ');
-            source.DataSource = TravelAgencyCollection.Filter<Tour>(tours.ToList(), filters);
+            source.DataSource = TravelAgencyCollection.Filter<Travel>(travels.ToList(), filters);
         }
 
         /// <summary>
@@ -91,13 +112,43 @@ namespace coursa4
 
         private void addTravelToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AddTravelAgencyForm form = new AddTravelAgencyForm();
+            AboutTravelForm form = new AboutTravelForm(travelAgency);
             form.Show();
+        }
+
+        private void editTravelAgencyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AboutTravelAgencyForm form = new AboutTravelAgencyForm(travelAgency);
+            form.Show();
+        }
+
+        private void deleteTravelAgencyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult dr = MessageBox.Show("Are you sure you want to proceed? This data will be lost.", "Warning", MessageBoxButtons.YesNo);
+            if (dr == DialogResult.Yes)
+            {
+                TravelAgencyCollection tac = TravelAgencyCollection.GetDefaultInstance();
+                tac.Remove(travelAgency);
+                tac.Save();
+                this.Close();
+            }
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void travelAgencyGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            // Проверка на выбор заголовка столбца.
+            if (e.RowIndex == -1)
+                return;
+
+            int index = travelAgencyGridView.CurrentRow.Index;
+            Travel travel = (source.DataSource as BindingList<Travel>)[index];
+            AboutTravelForm form = new AboutTravelForm(travelAgency, travel);
+            form.Show();
         }
     }
 }

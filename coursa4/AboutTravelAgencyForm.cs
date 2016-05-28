@@ -10,18 +10,35 @@ using System.Windows.Forms;
 
 namespace coursa4
 {
-    public partial class AddTravelAgencyForm : Form
+    public partial class AboutTravelAgencyForm : Form
     {
+        private TravelAgency originalTravelAgency;
         private TravelAgency travelAgency;
         private bool saved = false;
+        private bool isNew = false;
 
-        public AddTravelAgencyForm()
+        public AboutTravelAgencyForm()
         {
             InitializeComponent();
+
+            isNew = true;
 
             travelAgency = new TravelAgency();
             nameTextBox.DataBindings.Add(new Binding("Text", travelAgency, "Name"));
             addressTextBox.DataBindings.Add(new Binding("Text", travelAgency, "Address"));
+        }
+
+        public AboutTravelAgencyForm(TravelAgency travelAgency)
+        {
+            InitializeComponent();
+
+            Text = "Edit";
+
+            originalTravelAgency = travelAgency;
+            this.travelAgency = new TravelAgency(originalTravelAgency);
+
+            nameTextBox.DataBindings.Add(new Binding("Text", this.travelAgency, "Name"));
+            addressTextBox.DataBindings.Add(new Binding("Text", this.travelAgency, "Address"));
         }
 
         private void saveButton_Click(object sender, EventArgs e)
@@ -41,7 +58,13 @@ namespace coursa4
 
 
             TravelAgencyCollection tac = TravelAgencyCollection.GetDefaultInstance();
-            tac.Add(travelAgency);
+
+            if (isNew)
+                tac.Add(travelAgency);
+            else
+            {
+                originalTravelAgency.Copy(travelAgency);
+            }
             tac.Save();
             saved = true;
             this.Close();
