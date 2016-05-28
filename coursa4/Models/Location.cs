@@ -12,6 +12,10 @@ namespace coursa4
         public string Country { get; set; }
         public string Place { get; set; }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="place"> Название места. </param>
+        /// <param name="country"> Страна, в которой находится. </param>
         public Location(string place, string country)
         {
             Country = country;
