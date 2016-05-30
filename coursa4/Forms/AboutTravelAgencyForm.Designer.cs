@@ -39,47 +39,41 @@
             // 
             // nameTextBox
             // 
-            this.nameTextBox.Font = new System.Drawing.Font("Goudy Old Style", 14F);
-            this.nameTextBox.Location = new System.Drawing.Point(112, 14);
+            this.nameTextBox.Location = new System.Drawing.Point(82, 14);
             this.nameTextBox.Name = "nameTextBox";
-            this.nameTextBox.Size = new System.Drawing.Size(346, 36);
+            this.nameTextBox.Size = new System.Drawing.Size(376, 22);
             this.nameTextBox.TabIndex = 0;
             // 
             // nameLabel
             // 
             this.nameLabel.AutoSize = true;
-            this.nameLabel.Font = new System.Drawing.Font("Goudy Old Style", 14F);
             this.nameLabel.Location = new System.Drawing.Point(12, 17);
             this.nameLabel.Name = "nameLabel";
-            this.nameLabel.Size = new System.Drawing.Size(75, 27);
+            this.nameLabel.Size = new System.Drawing.Size(49, 17);
             this.nameLabel.TabIndex = 1;
             this.nameLabel.Text = "Name:";
             // 
             // addressLabel
             // 
             this.addressLabel.AutoSize = true;
-            this.addressLabel.Font = new System.Drawing.Font("Goudy Old Style", 14F);
-            this.addressLabel.Location = new System.Drawing.Point(12, 69);
+            this.addressLabel.Location = new System.Drawing.Point(12, 45);
             this.addressLabel.Name = "addressLabel";
-            this.addressLabel.Size = new System.Drawing.Size(94, 27);
+            this.addressLabel.Size = new System.Drawing.Size(64, 17);
             this.addressLabel.TabIndex = 3;
             this.addressLabel.Text = "Address:";
             // 
             // addressTextBox
             // 
-            this.addressTextBox.Font = new System.Drawing.Font("Goudy Old Style", 14F);
-            this.addressTextBox.Location = new System.Drawing.Point(112, 66);
+            this.addressTextBox.Location = new System.Drawing.Point(82, 42);
             this.addressTextBox.Name = "addressTextBox";
-            this.addressTextBox.Size = new System.Drawing.Size(346, 36);
+            this.addressTextBox.Size = new System.Drawing.Size(376, 22);
             this.addressTextBox.TabIndex = 2;
             // 
             // saveButton
             // 
-            this.saveButton.BackColor = System.Drawing.Color.LightGreen;
-            this.saveButton.Font = new System.Drawing.Font("Goudy Old Style", 14F);
-            this.saveButton.Location = new System.Drawing.Point(273, 132);
+            this.saveButton.Location = new System.Drawing.Point(254, 70);
             this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(115, 33);
+            this.saveButton.Size = new System.Drawing.Size(99, 33);
             this.saveButton.TabIndex = 4;
             this.saveButton.Text = "Save";
             this.saveButton.UseVisualStyleBackColor = false;
@@ -87,11 +81,9 @@
             // 
             // cancelButton
             // 
-            this.cancelButton.BackColor = System.Drawing.Color.SkyBlue;
-            this.cancelButton.Font = new System.Drawing.Font("Goudy Old Style", 14F);
-            this.cancelButton.Location = new System.Drawing.Point(72, 132);
+            this.cancelButton.Location = new System.Drawing.Point(359, 70);
             this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(115, 33);
+            this.cancelButton.Size = new System.Drawing.Size(99, 33);
             this.cancelButton.TabIndex = 5;
             this.cancelButton.Text = "Cancel";
             this.cancelButton.UseVisualStyleBackColor = false;
@@ -101,8 +93,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.LightYellow;
-            this.ClientSize = new System.Drawing.Size(470, 177);
+            this.ClientSize = new System.Drawing.Size(462, 109);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.saveButton);
             this.Controls.Add(this.addressLabel);
@@ -111,6 +102,8 @@
             this.Controls.Add(this.nameTextBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "AboutTravelAgencyForm";
             this.Text = "Add";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AddTravelAgencyForm_FormClosing);

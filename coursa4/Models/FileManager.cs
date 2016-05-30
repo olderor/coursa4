@@ -28,9 +28,28 @@ namespace coursa4
         /// <summary>
         /// Чтение данных из файла.
         /// </summary>
+        /// <returns> Возвращает коллекцию, которая была сохранена по заданному пути.
+        /// В случае, если прочесть невозможно, возвращает null. </returns>
+        public TravelAgencyCollection ReadCollection()
+        {
+            return Read() as TravelAgencyCollection;
+        }
+
+        /// <summary>
+        /// Сохранение коллекции.
+        /// </summary>
+        /// <param name="collection"> коллекция, которую необходимо сохранить. </param>
+        public void SaveCollection(TravelAgencyCollection collection)
+        {
+            Save(collection);
+        }
+
+        /// <summary>
+        /// Чтение данных из файла.
+        /// </summary>
         /// <returns> Возвращает объект, который был сохранен по заданному пути.
         /// В случае, если прочесть невозможно, возвращает null. </returns>
-        public object Read()
+        private object Read()
         {
             // Проверка на существование файла
             if (!File.Exists(Path))
@@ -50,10 +69,8 @@ namespace coursa4
                 stream.Close();
                 return obj;
             }
-            catch (Exception e)
-            {
-                LogError(e);
-            }
+            catch { }
+
             stream.Close();
             return null;
         }
@@ -62,7 +79,7 @@ namespace coursa4
         /// Сохранение объекта.
         /// </summary>
         /// <param name="obj"> Объект, который необходимо сохранить. </param>
-        public void Save(object obj)
+        private void Save(object obj)
         {
             IFormatter formatter = new BinaryFormatter();
             Stream stream = new FileStream(Path,
@@ -70,27 +87,6 @@ namespace coursa4
                                      FileAccess.Write, FileShare.None);
             formatter.Serialize(stream, obj);
             stream.Close();
-        }
-
-        /// <summary>
-        /// Добавление записи в конец файла без его перезаписи.
-        /// </summary>
-        /// <param name="str">Строка, которую необходимо записать. </param>
-        private void WriteLine(string str)
-        {
-            StreamWriter sw = new StreamWriter(Path, true);
-            sw.WriteLine(str);
-            sw.Close();
-        }
-
-        /// <summary>
-        /// Функция, которая делает запись об ошибке. 
-        /// </summary>
-        /// <param name="e"> Ошибка. </param>
-        public void LogError(Exception e)
-        {
-            FileManager fm = new FileManager("errors.txt");
-            fm.WriteLine(DateTime.Now.ToString() + " - Exception in FileManager Read with Path: " + Path + "; Message: " + e.Message);
         }
     }
 }

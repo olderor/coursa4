@@ -72,6 +72,7 @@
     </Compile>
     <Compile Include="Models\FileManager.cs" />
     <Compile Include="Models\Location.cs" />
+    <Compile Include="Models\MyList.cs" />
     <Compile Include="Models\Travel.cs" />
     <Compile Include="Models\TravelAgency.cs" />
     <Compile Include="Models\TravelAgencyCollection.cs" />

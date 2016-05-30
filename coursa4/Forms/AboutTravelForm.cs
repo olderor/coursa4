@@ -16,6 +16,8 @@ namespace coursa4
         public AboutTravelForm(TravelAgency travelAgency) : this(travelAgency, new Travel())
         {            
             deleteButton.Visible = false;
+            saveButton.Location = cancelButton.Location;
+            cancelButton.Location = deleteButton.Location;
             isNew = true;
         }
 
@@ -28,9 +30,9 @@ namespace coursa4
             this.travel = new Travel(travel);
 
             if (travelAgency != null)
-                infoLabel.Text = "Travel by '" + travelAgency.Name + "'.";
+                infoLabel.Text = travelAgency.Name;
             else
-                infoLabel.Text = "Travel by '" + travel.Owner.Name + "'.";
+                infoLabel.Text = travel.Owner.Name;
 
             // Установка связей и источников данных для перечислений.
 
@@ -66,7 +68,32 @@ namespace coursa4
         private TravelAgency travelAgency;
         private bool saved = false;
         private bool isNew = false;
-        private bool isClosing = false;
+
+
+        private void saveData()
+        {
+            // Проверка на корректность входных данных.
+            if (!travel.IsCorrect)
+            {
+                MessageBox.Show("Travel should have a title and contain at least 1 place, all of them should have place name and country.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            TravelAgencyCollection tac = TravelAgencyCollection.GetDefaultInstance();
+
+            if (isNew)
+            {
+                travelAgency.Add(travel);
+            }
+            else
+            {
+                originalTravel.Copy(travel);
+            }
+
+
+            tac.Save();
+            saved = true;
+        }
 
         /// <summary>
         /// Устанавливает значения, которые указаны в объекте, в чекбокс.
@@ -173,28 +200,9 @@ namespace coursa4
 
         private void saveButton_Click(object sender, EventArgs e)
         {
-            // Проверка на корректность входных данных.
-            if (!travel.IsCorrect)
-            {
-                MessageBox.Show("Travel should have a title and contain at least 1 place, all of them should have place name and country.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            TravelAgencyCollection tac = TravelAgencyCollection.GetDefaultInstance();
-
-            if (isNew)
-            {
-                travelAgency.Add(travel);
-            }
-            else
-            {
-                originalTravel.Copy(travel);
-            }
-
-
-            tac.Save();
-            saved = true;
-            this.Close();
+            saveData();
+            if (saved)
+                this.Close();
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
@@ -207,33 +215,19 @@ namespace coursa4
             if (!saved)
             {
                 // Запрос подтверждения выхода из формы.
-                DialogResult dr = MessageBox.Show("Are you sure you want to proceed? All unsaved changes will be lost.", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                if (dr == DialogResult.No)
-                {
-                    e.Cancel = true;
-                    return;
-                }
-                else
-                {
-                    saved = true;
-                }
-            }
-            if (Application.OpenForms.Count == 1 && !isClosing)
-            {
-                DialogResult dr = MessageBox.Show("Are you sure you want exit?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult dr = MessageBox.Show("You have unsaved data. Do you want to save it?", "Save", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dr == DialogResult.Yes)
                 {
-                    isClosing = true;
-                    Application.Exit();
+                    saveData();
+                    if (!saved)
+                        e.Cancel = true;
                 }
-                else
-                    e.Cancel = true;
             }
         }
 
         private void deleteButton_Click(object sender, EventArgs e)
         {
-            DialogResult dr = MessageBox.Show("Are you sure you want to proceed? This data will be lost.", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            DialogResult dr = MessageBox.Show("Are you sure you want to delete data?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (dr == DialogResult.Yes)
             {
                 travelAgency.Remove(originalTravel);

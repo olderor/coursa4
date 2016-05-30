@@ -13,15 +13,10 @@ namespace coursa4
     public partial class AboutTravelAgencyForm : Form
     {
 
-        public AboutTravelAgencyForm()
+        public AboutTravelAgencyForm() : this(new TravelAgency())
         {
-            InitializeComponent();
-
             isNew = true;
-
-            travelAgency = new TravelAgency();
-            nameTextBox.DataBindings.Add(new Binding("Text", travelAgency, "Name", true, DataSourceUpdateMode.OnPropertyChanged));
-            addressTextBox.DataBindings.Add(new Binding("Text", travelAgency, "Address", true, DataSourceUpdateMode.OnPropertyChanged));
+            Text = "Add travel agency";
         }
 
         public AboutTravelAgencyForm(TravelAgency travelAgency)
@@ -41,9 +36,9 @@ namespace coursa4
         private TravelAgency travelAgency;
         private bool saved = false;
         private bool isNew = false;
-        private bool isClosing = false;
 
-        private void saveButton_Click(object sender, EventArgs e)
+
+        private void saveData()
         {
             // Проверка на пустые поля.
             if (!travelAgency.IsCorrect)
@@ -65,29 +60,27 @@ namespace coursa4
 
             tac.Save();
             saved = true;
-            this.Close();
+        }
+
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            saveData();
+            if (saved)
+                this.Close();
         }
 
         private void AddTravelAgencyForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (!saved)
             {
-                DialogResult dr = MessageBox.Show("Are you sure you want to proceed? All unsaved changes will be lost.", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                if (dr == DialogResult.No)
-                {
-                    e.Cancel = true;
-                }
-            }
-            if (Application.OpenForms.Count == 1 && !isClosing)
-            {
-                DialogResult dr = MessageBox.Show("Are you sure you want exit?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                // Запрос подтверждения выхода из формы.
+                DialogResult dr = MessageBox.Show("You have unsaved data. Do you want to save it?", "Save", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dr == DialogResult.Yes)
                 {
-                    isClosing = true;
-                    Application.Exit();
+                    saveData();
+                    if (!saved)
+                        e.Cancel = true;
                 }
-                else
-                    e.Cancel = true;
             }
         }
 

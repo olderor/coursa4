@@ -26,7 +26,7 @@ namespace coursa4
 
             TravelAgencyCollection tac = TravelAgencyCollection.GetDefaultInstance();
 
-            generateData();
+            //generateData();
 
             source = new BindingSource();
             source.DataSource = tac.TravelAgencies;
@@ -35,7 +35,6 @@ namespace coursa4
         }
 
         private BindingSource source;
-        private bool isClosing = false;
 
         private void generateData()
         {
@@ -65,11 +64,6 @@ namespace coursa4
                 TravelAgency ta2 = new TravelAgency("Globus" + i.ToString(), "Kharkiv, Travelizm street, 129", t, t3, t4, t5, t2, t6, t7);
                 tac.Add(ta2);
             }
-            for (int i = 0; i < 22; i++)
-            {
-                TravelAgency ta2 = new TravelAgency("Globus" + i.ToString(), "Kharkiv, Travelizm street, 129");
-                tac.Add(ta2);
-            }
             tac.Save();
         }
 
@@ -79,7 +73,6 @@ namespace coursa4
         private void updateGridView(object sender, FormClosedEventArgs e)
         {
             filter();
-            Visible = true;
         }
 
         /// <summary>
@@ -89,7 +82,7 @@ namespace coursa4
         {
             TravelAgencyCollection tac = TravelAgencyCollection.GetDefaultInstance();
             string[] filters = filterTextBox.Text.Split(' ');
-            source.DataSource = new BindingList<TravelAgency>(TravelAgencyCollection.Filter<TravelAgency>(tac.GetAllTravelAgencies(), filters));
+            source.DataSource = new BindingList<TravelAgency>(MyList.Filter<TravelAgency>(tac.GetAllTravelAgencies(), filters));
         }
 
         /// <summary>
@@ -105,7 +98,6 @@ namespace coursa4
             TravelAgency ta = (source.DataSource as BindingList<TravelAgency>)[index];
             TravelAgencyForm taf = new TravelAgencyForm(ta);
             taf.Show();
-            Visible = false;
             taf.FormClosed += updateGridView;
         }
 
@@ -124,26 +116,7 @@ namespace coursa4
         {
             TravelAgencyForm form = new TravelAgencyForm(TravelAgencyCollection.GetDefaultInstance().GetAllTravels());
             form.Show();
-            Visible = false;
             form.FormClosed += updateGridView;
-        }
-
-        /// <summary>
-        /// Обработка закрытия приложения.
-        /// </summary>
-        private void TravelAgenciesForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (Application.OpenForms.Count == 1 && !isClosing)
-            {
-                DialogResult dr = MessageBox.Show("Are you sure you want exit?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (dr == DialogResult.Yes)
-                {
-                    isClosing = true;
-                    Application.Exit();
-                }
-                else
-                    e.Cancel = true;
-            }
         }
 
         /// <summary>
@@ -170,12 +143,7 @@ namespace coursa4
         /// </summary>
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DialogResult dr = MessageBox.Show("Are you sure you want exit?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (dr == DialogResult.Yes)
-            {
-                isClosing = true;
-                Application.Exit();
-            }
+            Application.Exit();
         }
 
         /// <summary>
@@ -196,23 +164,23 @@ namespace coursa4
             List<TravelAgency> data = (source.DataSource as BindingList<TravelAgency>).ToList();
             string property = travelAgenciesGridView.Columns[e.ColumnIndex].DataPropertyName;
 
-            List<TravelAgency> sortedData = TravelAgencyCollection.SortBy<TravelAgency>(data, property);
+            List<TravelAgency> sortedData = MyList.SortBy<TravelAgency>(data, property);
 
             // Если списки одинаковы, меняем порядок
-            if (TravelAgencyCollection.Compare<TravelAgency>(sortedData, data))
+            if (MyList.Compare<TravelAgency>(sortedData, data))
                 sortedData.Reverse();
 
             source.DataSource = new BindingList<TravelAgency>(sortedData);
         }
 
-        private void helpToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("Double click on travel agency to browse and edit travel agency.\nClick on column header to order column.\nEnter search filters separated by space and click search button to filter agencies.\nClick on 'browse all' button to see all travels we have.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Question);
-        }
-
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MessageBox.Show("coursa4 - the best travel guide!\nCreated by Bohdan Yevchenko.\nCopyright © 2016, All Rights Reserved.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void viewHelpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Double click on travel agency to browse and edit travel agency.\nClick on column header to order column.\nEnter search filters separated by space and click search button to filter agencies.\nClick on 'browse all' button to see all travels we have.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Question);
         }
     }
 }

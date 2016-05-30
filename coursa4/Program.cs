@@ -16,9 +16,7 @@ namespace coursa4
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            TravelAgenciesForm form = new TravelAgenciesForm();
-            form.Show();
-            Application.Run();
+            Application.Run(new TravelAgenciesForm());
         }
     }
 }

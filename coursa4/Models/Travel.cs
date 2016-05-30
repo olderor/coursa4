@@ -51,15 +51,7 @@ namespace coursa4
 
         public Travel()
         {
-            Type = TravelType.Tour;
-            Title = "";
-            Activeness = Activeness.Adventure;
-            Transport = Transport.None;
-            Inclusion = Inclusion.None;
-            DayLength = 0;
-            Cost = 0;
-            Description = "";
-            Route = new List<Location>();
+            Route = new BindingList<Location>();
         }
 
         public Travel(Travel travel)
@@ -98,7 +90,7 @@ namespace coursa4
             DayLength = dayLength;
             Cost = cost;
             Description = description;
-            Route = new List<Location>(locations);
+            Route = new BindingList<Location>(locations);
         }
 
         public TravelAgency Owner { get; set; }
@@ -111,7 +103,7 @@ namespace coursa4
         public int DayLength { get; set; }
         public string Description { get; set; }
 
-        public List<Location> Route { get; set; }
+        public BindingList<Location> Route { get; set; }
 
         public string Path
         {
@@ -122,7 +114,7 @@ namespace coursa4
 
                 string result = Route[0].ToString();
                 for (int i = 1; i < Route.Count; i++)
-                    result += " ―> " + Route[i].ToString();
+                    result += " -> " + Route[i].ToString();
                 return result;
             }
         }
@@ -159,7 +151,7 @@ namespace coursa4
             DayLength = travel.DayLength;
             Cost = travel.Cost;
             Description = travel.Description;
-            Route = new List<Location>(travel.Route.ToList());
+            Route = new BindingList<Location>(travel.Route.ToList());
         }
 
         public void RemoveLocation(Location location)

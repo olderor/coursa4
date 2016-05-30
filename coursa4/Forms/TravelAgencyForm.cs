@@ -25,15 +25,9 @@ namespace coursa4
 
             DataBindings.Add(new Binding("Text", travelAgency, "Name"));
 
-            ToolStripItemCollection fileMenu = (menuStrip1.Items[1] as ToolStripMenuItem).DropDownItems;
-            menuStrip1.Items[1].Visible = true;
-            fileMenu.Clear();
-            fileMenu.Add("Add travel");
-            fileMenu[0].Click += addTravelToolStripMenuItem_Click;
-            fileMenu.Add("Edit");
-            fileMenu[1].Click += editTravelAgencyToolStripMenuItem_Click;
-            fileMenu.Add("Delete");
-            fileMenu[2].Click += deleteTravelAgencyToolStripMenuItem_Click;
+            ToolStripItemCollection fileMenu = (menuStrip1.Items[0] as ToolStripMenuItem).DropDownItems;
+            fileMenu[0].Visible = true;
+
         }
 
         /// <summary>
@@ -51,9 +45,9 @@ namespace coursa4
 
             InitializeComponent();
             source = new BindingSource();
-            
-            menuStrip1.Items[1].Visible = false;
-            //travelAgencyGridView.DataSource = travels;
+
+            ToolStripItemCollection fileMenu = (menuStrip1.Items[0] as ToolStripMenuItem).DropDownItems;
+            fileMenu[0].Visible = false;
             Text = "List of travels";
             this.travels = new BindingList<Travel>(travels);
             source.DataSource = this.travels;
@@ -63,7 +57,6 @@ namespace coursa4
         private TravelAgency travelAgency;
         private BindingList<Travel> travels;
         private BindingSource source;
-        private bool isClosing = false;
 
         /// <summary>
         /// Фильтрация данных.
@@ -71,7 +64,7 @@ namespace coursa4
         private void filter()
         {
             string[] filters = filterTextBox.Text.Split(' ');
-            source.DataSource = new BindingList<Travel>(TravelAgencyCollection.Filter<Travel>(travels.ToList(), filters));
+            source.DataSource = new BindingList<Travel>(MyList.Filter<Travel>(travels.ToList(), filters));
         }
 
         /// <summary>
@@ -80,24 +73,6 @@ namespace coursa4
         private void travelAgencyGridView_SelectionChanged(object sender, EventArgs e)
         {
             travelAgencyGridView.ClearSelection();
-        }
-
-        /// <summary>
-        /// Обработка закрытия приложения.
-        /// </summary>
-        private void TravelAgencyForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (Application.OpenForms.Count == 0 && !isClosing)
-            {
-                DialogResult dr = MessageBox.Show("Are you sure you want exit?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (dr == DialogResult.Yes)
-                {
-                    isClosing = true;
-                    Application.Exit();
-                }
-                else
-                    e.Cancel = true;
-            }
         }
 
         /// <summary>
@@ -169,12 +144,7 @@ namespace coursa4
         /// </summary>
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DialogResult dr = MessageBox.Show("Are you sure you want exit?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (dr == DialogResult.Yes)
-            {
-                isClosing = true;
-                Application.Exit();
-            }
+            Application.Exit();
         }
 
         /// <summary>
@@ -209,10 +179,10 @@ namespace coursa4
             List<Travel> data = (source.DataSource as BindingList<Travel>).ToList();
             string property = travelAgencyGridView.Columns[e.ColumnIndex].DataPropertyName;
 
-            List<Travel> sortedData = TravelAgencyCollection.SortBy<Travel>(data, property);
+            List<Travel> sortedData = MyList.SortBy<Travel>(data, property);
 
             // Если списки одинаковы, меняем порядок
-            if (TravelAgencyCollection.Compare<Travel>(sortedData, data))
+            if (MyList.Compare<Travel>(sortedData, data))
                 sortedData.Reverse();
 
             source.DataSource = new BindingList<Travel>(sortedData);
