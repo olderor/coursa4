@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="coursa4.AboutTravelAgencyForm" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAFAAABAACQAAAAAAACAAAACCCAMAAAAAAAQQCBAAAA=</HashCode>
+      <FileName>AboutTravelAgencyForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="coursa4.AboutTravelForm" Collapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAERKQAAFgAgIGFAIBCCIAIAAQAQEBxSABAYgE=</HashCode>
+      <FileName>AboutTravelForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="coursa4.FileManager">
+    <Position X="8.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAIIAAAAAAAgIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\FileManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="coursa4.Location" Collapsed="true">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAIAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>Models\Location.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="coursa4.Travel" Collapsed="true">
+    <Position X="5.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAgAEIAAEAAABQiAgAAAAAAAQIAAIgEAAA=</HashCode>
+      <FileName>Models\Travel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="coursa4.TravelAgency" Collapsed="true">
+    <Position X="2.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAIAAAAAAAAAAAAAAAAABAQAAgAAAAACAAIAAAAABAA=</HashCode>
+      <FileName>Models\TravelAgency.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="coursa4.TravelAgencyCollection" Collapsed="true">
+    <Position X="4" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAIAEAAAAAAAAAAAABAAgEBCBAAAAAABAAABAAAQ=</HashCode>
+      <FileName>Models\TravelAgencyCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="coursa4.Program" Collapsed="true">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="coursa4.TravelAgenciesForm" Collapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>FKGABAAAAiABAhIAgYjSFIBCAAgEAAAAAgBggAgAAAA=</HashCode>
+      <FileName>TravelAgenciesForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="coursa4.TravelAgencyForm" Collapsed="true">
+    <Position X="5.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BSLEBAAgECADAAIABYTSEgAiIQoAAAAAAgBgABBAgAo=</HashCode>
+      <FileName>TravelAgencyForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="coursa4.Properties.Resources" Collapsed="true">
+    <Position X="2.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="coursa4.Properties.Settings" Collapsed="true">
+    <Position X="4" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="coursa4.TravelType" Collapsed="true">
+    <Position X="5.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>Models\Travel.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="coursa4.Activeness" Collapsed="true">
+    <Position X="0.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAgAAAAAAAAAAAAAgIACAAAAAAAQ=</HashCode>
+      <FileName>Models\Travel.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="coursa4.Transport" Collapsed="true">
+    <Position X="4" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIgAAAAAAAAAAAAAAAAAAAAAACAAAAAABIAAAEAAAA=</HashCode>
+      <FileName>Models\Travel.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="coursa4.Inclusion" Collapsed="true">
+    <Position X="2.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAgAAAAAQAAAAAAAAAAAACEAEAAAA=</HashCode>
+      <FileName>Models\Travel.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

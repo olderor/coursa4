@@ -14,7 +14,6 @@ namespace coursa4
     /// </summary>
     class FileManager
     {
-        public string Path { get; set; }
 
         /// <summary>
         /// </summary>
@@ -24,10 +23,13 @@ namespace coursa4
             Path = path;
         }
 
+        public string Path { get; set; }
+
         /// <summary>
         /// Чтение данных из файла.
         /// </summary>
-        /// <returns> Возвращает объект, который был сохранен по заданному пути. В случае, если прочесть невозможно, возвращает null. </returns>
+        /// <returns> Возвращает объект, который был сохранен по заданному пути.
+        /// В случае, если прочесть невозможно, возвращает null. </returns>
         public object Read()
         {
             // Проверка на существование файла

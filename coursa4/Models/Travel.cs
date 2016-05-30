@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ComponentModel;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -37,9 +38,9 @@ namespace coursa4
     public enum Inclusion
     {
         None           = 0x000,
-        HotelPrice     = 0x001,
-        TransportPrice = 0x002,
-        Visa           = 0x004,
+        Hotel          = 0x001,
+        Transport      = 0x002,
+        Excursions     = 0x004,
         Insurance      = 0x008,
         AllInclusive   = 0x010 // Food and Drinks
     }
@@ -47,6 +48,60 @@ namespace coursa4
     [Serializable]
     public class Travel
     {
+
+        public Travel()
+        {
+            Type = TravelType.Tour;
+            Title = "";
+            Activeness = Activeness.Adventure;
+            Transport = Transport.None;
+            Inclusion = Inclusion.None;
+            DayLength = 0;
+            Cost = 0;
+            Description = "";
+            Route = new List<Location>();
+        }
+
+        public Travel(Travel travel)
+        {
+            Copy(travel);
+        }
+
+        public Travel(
+            TravelType type,
+            string title,
+            Activeness activeness,
+            Transport transport,
+            Inclusion inclusion,
+            double cost,
+            int dayLength,
+            string description,
+            params Location[] locations) :
+            this(type, title, activeness, transport, inclusion, cost, dayLength, description, locations.ToList())
+        { }
+
+        public Travel(TravelType type, 
+            string title, 
+            Activeness activeness, 
+            Transport transport, 
+            Inclusion inclusion, 
+            double cost, 
+            int dayLength, 
+            string description, 
+            List<Location> locations)
+        {
+            Type = type;
+            Title = title;
+            Activeness = activeness;
+            Transport = transport;
+            Inclusion = inclusion;
+            DayLength = dayLength;
+            Cost = cost;
+            Description = description;
+            Route = new List<Location>(locations);
+        }
+
+        public TravelAgency Owner { get; set; }
         public TravelType Type { get; set; }
         public string Title { get; set; }
         public Activeness Activeness { get; set; }
@@ -67,57 +122,35 @@ namespace coursa4
 
                 string result = Route[0].ToString();
                 for (int i = 1; i < Route.Count; i++)
-                    result += " -> " + Route[i].ToString();
+                    result += " ―> " + Route[i].ToString();
                 return result;
             }
         }
 
-        public Travel()
+        /// <summary>
+        /// Проверка на корректность данных.
+        /// </summary>
+        public bool IsCorrect
         {
-            Type = TravelType.Tour;
-            Title = "";
-            Activeness = Activeness.Adventure;
-            Transport = Transport.None;
-            Inclusion = Inclusion.None;
-            DayLength = 0;
-            Cost = 0;
-            Description = "";
-            Route = new List<Location>();
-        }
+            get
+            {
+                if (Route.Count == 0)
+                    return false;
 
-        public Travel(Travel travel)
-        {
-            Copy(travel);
-        }
+                if (Title == "")
+                    return false;
 
-        public Travel(TravelType type, string title, Activeness activeness, Transport transport, Inclusion inclusion, double cost, int dayLength, string description, params Location[] locations)
-        {
-            Type = type;
-            Title = title;
-            Activeness = activeness;
-            Transport = transport;
-            Inclusion = inclusion;
-            DayLength = dayLength;
-            Cost = cost;
-            Description = description;
-            Route = locations.ToList();
-        }
+                foreach (Location l in Route)
+                    if (!l.IsCorrect)
+                        return false;
 
-        public Travel(TravelType type, string title, Activeness activeness, Transport transport, Inclusion inclusion, double cost, int dayLength, string description, List<Location> locations)
-        {
-            Type = type;
-            Title = title;
-            Activeness = activeness;
-            Transport = transport;
-            Inclusion = inclusion;
-            DayLength = dayLength;
-            Cost = cost;
-            Description = description;
-            Route = locations;
+                return true;
+            }
         }
 
         public void Copy(Travel travel)
         {
+            Owner = travel.Owner;
             Type = travel.Type;
             Title = travel.Title;
             Activeness = travel.Activeness;
@@ -126,7 +159,27 @@ namespace coursa4
             DayLength = travel.DayLength;
             Cost = travel.Cost;
             Description = travel.Description;
-            Route = new List<Location>(travel.Route);
+            Route = new List<Location>(travel.Route.ToList());
+        }
+
+        public void RemoveLocation(Location location)
+        {
+            Route.Remove(location);
+        }
+
+        public void RemoveLocationAt(int index)
+        {
+            Route.RemoveAt(index);
+        }
+
+        public void AddLocation(string place, string country)
+        {
+            Route.Add(new Location(place, country));
+        }
+
+        public void AddLocation()
+        {
+            Route.Add(new Location());
         }
     }
 }

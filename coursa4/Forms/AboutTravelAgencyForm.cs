@@ -12,10 +12,6 @@ namespace coursa4
 {
     public partial class AboutTravelAgencyForm : Form
     {
-        private TravelAgency originalTravelAgency;
-        private TravelAgency travelAgency;
-        private bool saved = false;
-        private bool isNew = false;
 
         public AboutTravelAgencyForm()
         {
@@ -24,8 +20,8 @@ namespace coursa4
             isNew = true;
 
             travelAgency = new TravelAgency();
-            nameTextBox.DataBindings.Add(new Binding("Text", travelAgency, "Name"));
-            addressTextBox.DataBindings.Add(new Binding("Text", travelAgency, "Address"));
+            nameTextBox.DataBindings.Add(new Binding("Text", travelAgency, "Name", true, DataSourceUpdateMode.OnPropertyChanged));
+            addressTextBox.DataBindings.Add(new Binding("Text", travelAgency, "Address", true, DataSourceUpdateMode.OnPropertyChanged));
         }
 
         public AboutTravelAgencyForm(TravelAgency travelAgency)
@@ -37,34 +33,36 @@ namespace coursa4
             originalTravelAgency = travelAgency;
             this.travelAgency = new TravelAgency(originalTravelAgency);
 
-            nameTextBox.DataBindings.Add(new Binding("Text", this.travelAgency, "Name"));
-            addressTextBox.DataBindings.Add(new Binding("Text", this.travelAgency, "Address"));
+            nameTextBox.DataBindings.Add(new Binding("Text", this.travelAgency, "Name", true, DataSourceUpdateMode.OnPropertyChanged));
+            addressTextBox.DataBindings.Add(new Binding("Text", this.travelAgency, "Address", true, DataSourceUpdateMode.OnPropertyChanged));
         }
+
+        private TravelAgency originalTravelAgency;
+        private TravelAgency travelAgency;
+        private bool saved = false;
+        private bool isNew = false;
+        private bool isClosing = false;
 
         private void saveButton_Click(object sender, EventArgs e)
         {
             // Проверка на пустые поля.
-            if (nameTextBox.Text == "")
+            if (!travelAgency.IsCorrect)
             {
-                MessageBox.Show("Please, enter name of travel agency.", "Warning", MessageBoxButtons.OK);
+                MessageBox.Show("Travel agency should have a name and address", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
-            if (addressTextBox.Text == "")
-            {
-                MessageBox.Show("Please, enter address of travel agency.", "Warning", MessageBoxButtons.OK);
-                return;
-            }
-
 
             TravelAgencyCollection tac = TravelAgencyCollection.GetDefaultInstance();
 
             if (isNew)
+            {
                 tac.Add(travelAgency);
+            }
             else
             {
                 originalTravelAgency.Copy(travelAgency);
             }
+
             tac.Save();
             saved = true;
             this.Close();
@@ -74,14 +72,23 @@ namespace coursa4
         {
             if (!saved)
             {
-                DialogResult dr = MessageBox.Show("Are you sure you want to proceed? All unsaved changes will be lost.", "Warning", MessageBoxButtons.YesNo);
+                DialogResult dr = MessageBox.Show("Are you sure you want to proceed? All unsaved changes will be lost.", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (dr == DialogResult.No)
                 {
                     e.Cancel = true;
                 }
             }
-            if (Application.OpenForms.Count == 1)
-                Application.Exit();
+            if (Application.OpenForms.Count == 1 && !isClosing)
+            {
+                DialogResult dr = MessageBox.Show("Are you sure you want exit?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dr == DialogResult.Yes)
+                {
+                    isClosing = true;
+                    Application.Exit();
+                }
+                else
+                    e.Cancel = true;
+            }
         }
 
         private void cancelButton_Click(object sender, EventArgs e)

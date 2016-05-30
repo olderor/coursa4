@@ -12,34 +12,11 @@ namespace coursa4
 {
     public partial class AboutTravelForm : Form
     {
-        private Travel travel;
-        private Travel originalTravel;
-        private TravelAgency travelAgency;
-        private bool saved = false;
-        private bool isNew = false;
 
-        public AboutTravelForm(TravelAgency travelAgency)
-        {
-            InitializeComponent();
-
-            isNew = true;
-            this.travelAgency = travelAgency;
-            travel = new Travel();
-
-            travelTypeComboBox.DataSource = Enum.GetValues(typeof(TravelType));
-            activenessComboBox.DataSource = Enum.GetValues(typeof(Activeness));
-            ((ListBox)transportCheckedListBox).DataSource = Enum.GetValues(typeof(Transport));
-            ((ListBox)transportCheckedListBox).DisplayMember = "Name";
-            transportCheckedListBox.SetItemCheckState(0, CheckState.Checked);
-            ((ListBox)inclusionCheckedListBox).DataSource = Enum.GetValues(typeof(Inclusion));
-            ((ListBox)inclusionCheckedListBox).DisplayMember = "Name";
-            inclusionCheckedListBox.SetItemCheckState(0, CheckState.Checked);
-
-            titleTextBox.DataBindings.Add(new Binding("Text", travel, "Title"));
-            costNumericUpDown.DataBindings.Add(new Binding("Value", travel, "Cost"));
-            daysNumericUpDown.DataBindings.Add(new Binding("Value", travel, "DayLength"));
-            descriptionTextBox.DataBindings.Add(new Binding("Text", travel, "Description"));
+        public AboutTravelForm(TravelAgency travelAgency) : this(travelAgency, new Travel())
+        {            
             deleteButton.Visible = false;
+            isNew = true;
         }
 
         public AboutTravelForm(TravelAgency travelAgency, Travel travel)
@@ -49,6 +26,13 @@ namespace coursa4
             originalTravel = travel;
             this.travelAgency = travelAgency;
             this.travel = new Travel(travel);
+
+            if (travelAgency != null)
+                infoLabel.Text = "Travel by '" + travelAgency.Name + "'.";
+            else
+                infoLabel.Text = "Travel by '" + travel.Owner.Name + "'.";
+
+            // Установка связей и источников данных для перечислений.
 
             travelTypeComboBox.DataSource = Enum.GetValues(typeof(TravelType));
             travelTypeComboBox.SelectedItem = this.travel.Type;
@@ -62,12 +46,34 @@ namespace coursa4
             ((ListBox)inclusionCheckedListBox).DisplayMember = "Name";
             setEnumToCheckedListBox(inclusionCheckedListBox, Enum.GetValues(typeof(Inclusion)), (int)travel.Inclusion);
 
-            titleTextBox.DataBindings.Add(new Binding("Text", this.travel, "Title"));
-            costNumericUpDown.DataBindings.Add(new Binding("Value", this.travel, "Cost"));
-            daysNumericUpDown.DataBindings.Add(new Binding("Value", this.travel, "DayLength"));
-            descriptionTextBox.DataBindings.Add(new Binding("Text", this.travel, "Description"));
+            titleTextBox.DataBindings.Add(new Binding("Text", this.travel, "Title", true, DataSourceUpdateMode.OnPropertyChanged));
+            costNumericUpDown.DataBindings.Add(new Binding("Value", this.travel, "Cost", true, DataSourceUpdateMode.OnPropertyChanged));
+            daysNumericUpDown.DataBindings.Add(new Binding("Value", this.travel, "DayLength", true, DataSourceUpdateMode.OnPropertyChanged));
+            descriptionTextBox.DataBindings.Add(new Binding("Text", this.travel, "Description", true, DataSourceUpdateMode.OnPropertyChanged));
+
+            routeGridView.DataBindings.Add(new Binding("DataSource", this.travel, "Route", true, DataSourceUpdateMode.OnPropertyChanged));
+
+            DataBindings.Add(new Binding("Text", titleTextBox, "Text"));
+
+            if (this.travel.Route.Count != 0)
+                deletePlaceButton.Enabled = true;
+            
         }
 
+
+        private Travel travel;
+        private Travel originalTravel;
+        private TravelAgency travelAgency;
+        private bool saved = false;
+        private bool isNew = false;
+        private bool isClosing = false;
+
+        /// <summary>
+        /// Устанавливает значения, которые указаны в объекте, в чекбокс.
+        /// </summary>
+        /// <param name="listBox"> Чекбокс, в который нужно установить значения. </param>
+        /// <param name="enumValues"> Все возможные значения перечисления. </param>
+        /// <param name="value"> Значение объекта. </param>
         private void setEnumToCheckedListBox(CheckedListBox listBox, Array enumValues, int value)
         {
             for (int i = 0; i < enumValues.Length; i++)
@@ -82,6 +88,10 @@ namespace coursa4
 
         private void transportCheckedListBox_ItemCheck(object sender, ItemCheckEventArgs e)
         {
+            transportCheckedListBox.ClearSelected();
+
+            // Если был выбран None, нужно снять со всех остальных значений отметки.
+            // С None нельзя снять отметку, разве что только если было выбрано другое значение. 
             if (e.Index == 0)
             {
                 if (travel.Transport == Transport.None)
@@ -115,6 +125,11 @@ namespace coursa4
 
         private void inclusionCheckedListBox_ItemCheck(object sender, ItemCheckEventArgs e)
         {
+            inclusionCheckedListBox.ClearSelected();
+
+            // Если был выбран None, нужно снять со всех остальных значений отметки.
+            // С None нельзя снять отметку, разве что только если было выбрано другое значение. 
+
             if (e.Index == 0)
             {
                 if (travel.Inclusion == Inclusion.None)
@@ -158,12 +173,18 @@ namespace coursa4
 
         private void saveButton_Click(object sender, EventArgs e)
         {
+            // Проверка на корректность входных данных.
+            if (!travel.IsCorrect)
+            {
+                MessageBox.Show("Travel should have a title and contain at least 1 place, all of them should have place name and country.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             TravelAgencyCollection tac = TravelAgencyCollection.GetDefaultInstance();
 
             if (isNew)
             {
-                travelAgency.Travels.Add(travel);
-                travelAgency.Name = travelAgency.Name + " ";
+                travelAgency.Add(travel);
             }
             else
             {
@@ -185,19 +206,34 @@ namespace coursa4
         {
             if (!saved)
             {
-                DialogResult dr = MessageBox.Show("Are you sure you want to proceed? All unsaved changes will be lost.", "Warning", MessageBoxButtons.YesNo);
+                // Запрос подтверждения выхода из формы.
+                DialogResult dr = MessageBox.Show("Are you sure you want to proceed? All unsaved changes will be lost.", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (dr == DialogResult.No)
                 {
                     e.Cancel = true;
+                    return;
+                }
+                else
+                {
+                    saved = true;
                 }
             }
-            if (Application.OpenForms.Count == 1)
-                Application.Exit();
+            if (Application.OpenForms.Count == 1 && !isClosing)
+            {
+                DialogResult dr = MessageBox.Show("Are you sure you want exit?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dr == DialogResult.Yes)
+                {
+                    isClosing = true;
+                    Application.Exit();
+                }
+                else
+                    e.Cancel = true;
+            }
         }
 
         private void deleteButton_Click(object sender, EventArgs e)
         {
-            DialogResult dr = MessageBox.Show("Are you sure you want to proceed? This data will be lost.", "Warning", MessageBoxButtons.YesNo);
+            DialogResult dr = MessageBox.Show("Are you sure you want to proceed? This data will be lost.", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (dr == DialogResult.Yes)
             {
                 travelAgency.Remove(originalTravel);
@@ -205,6 +241,36 @@ namespace coursa4
                 saved = true;
                 this.Close();
             }
+        }
+
+        private void deletePlaceButton_Click(object sender, EventArgs e)
+        {
+            // Выбираем все отмеченные ячейки и удаляем их. После устанавливаем выделение на следующий элемент.
+            int index = 0;
+            DataGridViewSelectedRowCollection rows = routeGridView.SelectedRows;
+            for (int i = 0; i < rows.Count; i++)
+            {
+                index = rows[i].Index;
+                travel.RemoveLocationAt(index);
+                if (travel.Route.Count == 0)
+                    deletePlaceButton.Enabled = false;
+            }
+            routeGridView.ClearSelection();
+            int count = routeGridView.Rows.Count;
+            if (count != 0)
+            {
+                if (count <= index && count != 0)
+                    routeGridView.Rows[count - 1].Selected = true;
+                else
+                    routeGridView.Rows[index].Selected = true;
+            }
+
+        }
+
+        private void addPlaceButton_Click(object sender, EventArgs e)
+        {
+            travel.AddLocation();
+            deletePlaceButton.Enabled = true;
         }
     }
 }
